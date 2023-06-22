@@ -23,7 +23,7 @@ read -r -a users <<< "$(find ./users -mindepth 1 -maxdepth 1 -type f -exec basen
 read -r -a oldusers <<< $(awk -F: '$3>=1000&&$1!="nfsnobody"{print $1}' /etc/passwd | tr '\n' ' ')
 for u in "${oldusers[@]}"; do
 	[ ! -f "${path}/users/${u}" ] || continue
-	userdel -r "${u}" || true
+	#userdel -r "${u}" || true
 done
 
 for u in "${users[@]}"; do
