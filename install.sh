@@ -27,7 +27,7 @@ for u in "${oldusers[@]}"; do
 done
 
 for u in "${users[@]}"; do
-	useradd -m -U -G wheel,adm,systemd-journal "${user}"
+	useradd -m -U -G wheel,adm,systemd-journal "${u}"
 	mkdir ~"${u}/.ssh"
 	cat "${path}/users/${u}" > ~"${u}"/.ssh/authorized_keys
 	chown -R "${u}:${u}" ~"${u}/.ssh"
