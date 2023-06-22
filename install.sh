@@ -13,9 +13,9 @@ die() {
 
 [ -z "${DEBUG+x}" ] || { >&2 echo "DEBUG environment variable is set. Enabling debugging output."; set -x; }
 
-path="$(realpath "${0}")" || die "Could not determine path of executable."
+path="$(dirname "$(realpath "${0}")")" || die "Could not determine path of executable."
 
-[ -d "${path}/usrs" ] || die "No \"users\" file under \"${path}\"."
+[ -d "${path}/users" ] || die "No \"users\" file under \"${path}\"."
 
 read -r -a users <<< "$(find ./users -mindepth 1 -maxdepth 1 -type f -exec basename {} \;)"
 [ "${#users[@]}" > "0" ] || die "No users specified in this repository. Aborting."
