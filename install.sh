@@ -33,5 +33,5 @@ done
 read -r -a oldusers <<< $(awk -F: '$3>=1000&&$1!="nfsnobody"{print $1}' /etc/passwd | tr '\n' ' ')
 for u in "${oldusers[@]}"; do
 	[ ! -f "${path}/users/${u}" ] || continue
-	#userdel -r "${u}" || true
+	userdel -r "${u}" || true
 done
