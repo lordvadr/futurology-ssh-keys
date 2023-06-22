@@ -22,11 +22,12 @@ read -r -a users <<< "$(find ./users -mindepth 1 -maxdepth 1 -type f -exec basen
 
 for u in "${users[@]}"; do
 	useradd -m -U -G wheel,adm,systemd-journal "${u}"
-	mkdir ~"${u}/.ssh"
-	cat "${path}/users/${u}" > ~"${u}"/.ssh/authorized_keys
-	chown -R "${u}:${u}" ~"${u}/.ssh"
-	chmod 700 ~"${u}/.ssh"
-	chmod 600 ~"${u}/.ssh/authorized_keys"
+	homedir="$(getent passwd "${u}" | cut -d: -f 6)"
+	mkdir "${homedir}/.ssh"
+	cat "${path}/users/${u}" > "${homedir}/.ssh/authorized_keys"
+	chown -R "${u}:${u}" "${homedir}/.ssh"
+	chmod 700 "${homedir}/.ssh"
+	chmod 600 "${homedir}/.ssh/authorized_keys"
 done
 
 read -r -a oldusers <<< $(awk -F: '$3>=1000&&$1!="nfsnobody"{print $1}' /etc/passwd | tr '\n' ' ')
