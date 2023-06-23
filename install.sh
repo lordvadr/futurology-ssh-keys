@@ -17,7 +17,7 @@ path="$(dirname "$(realpath "${0}")")" || die "Could not determine path of execu
 
 [ -d "${path}/users" ] || die "No \"users\" file under \"${path}\"."
 
-read -r -a users <<< "$(find ./users -mindepth 1 -maxdepth 1 -type f -exec basename {} \;)"
+IFS=$'\n' read -d '' -r -a users <<< "$(find ./users -mindepth 1 -maxdepth 1 -type f | sed 's/.*\///')"
 [ "${#users[@]}" > "0" ] || die "No users specified in this repository. Aborting."
 
 for u in "${users[@]}"; do
